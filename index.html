@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Twagirumukiza — Dossier GRC &amp; Cybersécurité</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700;8..60,900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+  :root{
+    --navy-950:#0A121C;
+    --navy-900:#0F1B29;
+    --navy-800:#172940;
+    --navy-700:#223a56;
+    --paper:#ECE6D6;
+    --paper-line:#d8cfb6;
+    --ink:#1B2430;
+    --gold:#C9A227;
+    --gold-soft:#e8c65a;
+    --red:#A6392B;
+    --mist:#8CA0B3;
+    --mist-dim:#5C7086;
+    --maxw:1120px;
+  }
+  body.light{
+    --navy-950:#F4F0E6; --navy-900:#FFFCF4; --navy-800:#E8E1D1; --navy-700:#D8CEB9;
+    --paper:#FFFFFF; --paper-line:#D8CEB9; --ink:#17202B; --mist:#516273; --mist-dim:#718091;
+  }
+
+  *{box-sizing:border-box;}
+  .sr-only{ position:absolute!important; width:1px!important; height:1px!important; padding:0!important; margin:-1px!important; overflow:hidden!important; clip:rect(0,0,0,0)!important; white-space:nowrap!important; border:0!important; }
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+
+  body{
+    margin:0;
+    background:var(--navy-950);
+    color:var(--mist);
+    font-family:'Inter',sans-serif;
+    font-size:16px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  body::before{
+    content:"";
+    position:fixed; inset:0; pointer-events:none; z-index:0;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 3px);
+    mix-blend-mode:overlay;
+  }
+  body.light::before{ background-image:repeating-linear-gradient(0deg,rgba(20,30,40,.018) 0,rgba(20,30,40,.018) 1px,transparent 1px,transparent 3px); }
+  body.light h1,body.light h2,body.light h3,body.light .brand,body.light .dossier-title h3,body.light .gauge-score,body.light .calendar-title,body.light .report-dialog h2{color:#16202B}
+  body.light .hero p.lede,body.light .section-head p,body.light .about-grid p,body.light .diag-item p,body.light .contact-line,body.light .callback-box{color:#455565}
+  body.light header.nav{background:rgba(244,240,230,.9)}
+  body.light .dossier,body.light .gauge-card,body.light .contact-card,body.light .report-dialog{box-shadow:0 12px 32px rgba(20,30,40,.08)}
+  body.light .booking-fields input,body.light .report-fields input{background:#fff;color:#17202B}
+  body.light .theme-percent{background:rgba(255,252,244,.8)}
+
+  h1,h2,h3{
+    font-family:'Source Serif 4', serif;
+    color:#F2EEE1;
+    margin:0;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+
+  .mono{ font-family:'JetBrains Mono', monospace; }
+
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--gold);
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{ content:""; width:18px; height:1px; background:var(--gold); display:inline-block; }
+
+  a{color:inherit;}
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 28px; position:relative; z-index:1;}
+
+  header.nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(10,18,28,0.86);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(140,160,179,0.15);
+  }
+  .nav-inner{
+    max-width:var(--maxw); margin:0 auto; padding:14px 28px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .nav-tools{display:flex;align-items:center;gap:8px;margin-left:16px}
+  .utility-btn{min-width:48px;height:34px;border:1px solid var(--mist-dim);background:transparent;color:var(--mist);font:600 10px 'JetBrains Mono',monospace;letter-spacing:.05em;cursor:pointer}
+  .utility-btn:hover,.utility-btn:focus-visible{border-color:var(--gold);color:var(--gold)}
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    font-family:'JetBrains Mono', monospace;
+    color:#F2EEE1; font-size:13px; letter-spacing:0.04em; font-weight:600;
+    text-decoration:none;
+  }
+  .brand .mark{
+    width:28px; height:28px; border:1px solid var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--gold); font-size:11px; font-weight:700;
+  }
+  nav.links{ display:flex; gap:26px; align-items:center;}
+  nav.links a{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11.5px; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--mist); text-decoration:none;
+    padding-bottom:3px; border-bottom:1px solid transparent;
+    transition:color .2s ease, border-color .2s ease;
+  }
+  nav.links a:hover, nav.links a:focus-visible{ color:var(--gold-soft); border-color:var(--gold);}
+  .nav-cta{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px; letter-spacing:0.06em; text-transform:uppercase;
+    color:var(--navy-950); background:var(--gold);
+    padding:9px 14px; text-decoration:none; font-weight:700;
+    transition:background .2s ease;
+    white-space:nowrap;
+  }
+  .nav-cta:hover, .nav-cta:focus-visible{ background:var(--gold-soft);}
+
+  @media (max-width:820px){ nav.links{ display:none; }.nav-inner{padding:12px 16px}.nav-tools{margin-left:auto}.utility-btn{min-width:44px} }
+
+  .hero{
+    position:relative;
+    padding:120px 0 90px;
+    overflow:hidden;
+    border-bottom:1px solid rgba(140,160,179,0.15);
+  }
+  .hero::after{
+    content:"";
+    position:absolute; right:-120px; top:-120px; width:480px; height:480px;
+    border:1px solid rgba(201,162,39,0.12); border-radius:50%;
+  }
+  .hero-grid{ display:grid; grid-template-columns:1.15fr 0.85fr; gap:60px; align-items:center; }
+  @media (max-width:900px){ .hero-grid{ grid-template-columns:1fr; gap:48px;} }
+
+  .hero h1{ font-size:clamp(34px, 4.6vw, 54px); line-height:1.08; margin:18px 0 22px; }
+  .hero h1 em{ font-style:normal; color:var(--gold-soft); }
+  .hero p.lede{ font-size:16.5px; line-height:1.7; color:var(--mist); max-width:52ch; margin-bottom:32px; }
+  .hero-ctas{ display:flex; gap:14px; flex-wrap:wrap; }
+  .btn{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px; letter-spacing:0.06em; text-transform:uppercase;
+    text-decoration:none; padding:13px 20px; font-weight:600;
+    display:inline-flex; align-items:center; gap:8px;
+    transition:transform .15s ease, background .2s ease, color .2s ease, border-color .2s ease;
+    border:1px solid transparent; cursor:pointer;
+  }
+  .btn-primary{ background:var(--gold); color:var(--navy-950); border-color:var(--gold);}
+  .btn-primary:hover, .btn-primary:focus-visible{ background:var(--gold-soft); transform:translateY(-1px);}
+  .btn-ghost{ background:transparent; color:var(--mist); border-color:var(--mist-dim);}
+  .btn-ghost:hover, .btn-ghost:focus-visible{ color:#F2EEE1; border-color:var(--mist);}
+
+  .stamp-wrap{ display:flex; justify-content:center; }
+  .stamp{
+    width:260px; height:260px; position:relative;
+    border:2px solid var(--red); border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    transform:rotate(-9deg);
+    animation:stampin .7s ease-out both;
+  }
+  @keyframes stampin{
+    0%{ transform:rotate(-9deg) scale(1.4); opacity:0;}
+    100%{ transform:rotate(-9deg) scale(1); opacity:1;}
+  }
+  .stamp::before{ content:""; position:absolute; inset:10px; border:1px solid var(--red); border-radius:50%; }
+  .stamp-text{ font-family:'JetBrains Mono', monospace; color:var(--red); text-align:center; letter-spacing:0.08em; }
+  .stamp-text .big{ font-size:16px; font-weight:700; display:block; margin-bottom:6px;}
+  .stamp-text .small{ font-size:9.5px; display:block; opacity:0.85;}
+  .stamp-text .ref{ font-size:9px; margin-top:8px; display:block; opacity:0.7;}
+
+  section{ padding:90px 0; border-bottom:1px solid rgba(140,160,179,0.12); position:relative;}
+  .section-head{ margin-bottom:42px; max-width:640px;}
+  .section-head h2{ font-size:clamp(26px,3vw,34px); margin-top:14px;}
+  .section-head p{ color:var(--mist); margin-top:14px; line-height:1.7; font-size:15px;}
+
+  .reveal{ opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{ opacity:1; transform:translateY(0);}
+
+  .about-grid{ display:grid; grid-template-columns:1fr 1fr; gap:56px;}
+  @media (max-width:860px){ .about-grid{ grid-template-columns:1fr; } }
+  .about-grid p{ font-size:15px; line-height:1.75; color:#c7d0d9; margin:0 0 16px;}
+  .articles{ display:flex; flex-direction:column; gap:0; border-top:1px solid rgba(140,160,179,0.2);}
+  .article{ padding:18px 0; border-bottom:1px solid rgba(140,160,179,0.2); display:grid; grid-template-columns:98px 1fr; gap:16px; }
+  .article .art-num{ font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--gold); letter-spacing:0.05em; padding-top:2px; }
+  .article h4{ font-family:'Source Serif 4', serif; color:#F2EEE1; font-size:16px; margin:0 0 6px; font-weight:600; }
+  .article p{ margin:0; font-size:13.5px; color:var(--mist); line-height:1.6;}
+
+  .dossier{ border:1px solid rgba(140,160,179,0.25); margin-bottom:14px; background:var(--navy-900); }
+  .dossier-tab{
+    width:100%; text-align:left; background:none; border:none; cursor:pointer;
+    display:grid; grid-template-columns:auto 1fr auto auto; align-items:center; gap:18px;
+    padding:22px 24px; color:inherit;
+  }
+  .dossier-tab:focus-visible{ outline:2px solid var(--gold); outline-offset:-2px;}
+  .dossier-index{ font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--mist-dim); border:1px solid rgba(140,160,179,0.3); padding:4px 8px; white-space:nowrap; }
+  .dossier-title{ display:flex; flex-direction:column; gap:4px;}
+  .dossier-title h3{ font-size:19px; color:#F2EEE1;}
+  .dossier-ref{ font-family:'JetBrains Mono', monospace; font-size:10.5px; color:var(--gold); letter-spacing:0.05em;}
+  .dossier-hint{ font-family:'JetBrains Mono', monospace; font-size:10.5px; color:var(--mist-dim); text-transform:uppercase; letter-spacing:0.08em; display:none; }
+  @media (min-width:700px){ .dossier-hint{ display:block; } }
+  .dossier-plus{ width:26px; height:26px; border:1px solid var(--mist-dim); position:relative; flex-shrink:0; transition:transform .3s ease, border-color .3s ease; }
+  .dossier-plus::before, .dossier-plus::after{ content:""; position:absolute; background:var(--mist); left:50%; top:50%; transform:translate(-50%,-50%); }
+  .dossier-plus::before{ width:12px; height:1px;}
+  .dossier-plus::after{ width:1px; height:12px; transition:opacity .25s ease;}
+  .dossier[data-open="true"] .dossier-plus{ transform:rotate(180deg); border-color:var(--gold);}
+  .dossier[data-open="true"] .dossier-plus::after{ opacity:0;}
+
+  .dossier-panel{ max-height:0; overflow:hidden; transition:max-height .45s ease; }
+  .dossier-panel-inner{
+    background:var(--paper); color:var(--ink);
+    margin:0 18px 18px; padding:30px 30px 26px;
+    position:relative;
+    box-shadow:0 14px 30px rgba(0,0,0,0.35);
+  }
+  .dossier-panel-inner::before{
+    content:""; position:absolute; top:14px; left:14px; width:22px; height:22px;
+    border-top:2px solid var(--red); border-left:2px solid var(--red); opacity:0.55;
+  }
+  .dossier-panel-inner p.intro{ font-size:14.5px; line-height:1.7; color:#31281c; margin:0 0 20px; max-width:70ch; }
+  .checklist{ list-style:none; padding:0; margin:0 0 20px; display:grid; gap:10px;}
+  .checklist li{ display:grid; grid-template-columns:18px 1fr; gap:10px; font-size:13.5px; line-height:1.55; }
+  .checklist li::before{ content:"✓"; color:var(--red); font-weight:700; font-family:'JetBrains Mono',monospace; font-size:13px; }
+  .checklist b{ color:#1B2430;}
+  .why-title{
+    font-family:'JetBrains Mono', monospace; font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase;
+    color:#7a6a3a; margin:0 0 10px; padding-top:14px; border-top:1px solid var(--paper-line);
+  }
+  .why-list{ list-style:none; padding:0; margin:0; display:grid; gap:8px;}
+  .why-list li{ font-size:13px; padding-left:16px; position:relative; color:#3a3226;}
+  .why-list li::before{ content:"—"; position:absolute; left:0; color:#7a6a3a;}
+
+  .diag-grid{ display:grid; grid-template-columns:1fr 320px; gap:56px; align-items:start;}
+  @media (max-width:900px){ .diag-grid{ grid-template-columns:1fr; } }
+  .diag-item{ display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 0; border-bottom:1px solid rgba(140,160,179,0.2); }
+  .diag-content{ flex:1; }
+  .diag-item p{ margin:0; font-size:14.5px; color:#dbe2e8; max-width:44ch;}
+  .diag-detail-btn{ background:none; border:0; padding:7px 0 0; color:var(--gold); cursor:pointer; font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; }
+  .diag-detail-btn:hover,.diag-detail-btn:focus-visible{ color:var(--gold-soft); text-decoration:underline; }
+  .diag-detail{ display:none; margin-top:10px; max-width:66ch; color:var(--mist); font-size:12.8px; line-height:1.65; }
+  .diag-detail.open{ display:block; }
+  .detail-intro{ margin:0 0 9px!important; color:var(--mist)!important; font-size:12.5px!important; }
+  .criteria-list{ display:grid; gap:7px; }
+  .criteria-subtitle{ margin:12px 0 2px; padding:9px 10px; border-left:2px solid var(--gold); background:rgba(201,162,39,.07); color:#F2EEE1; font:600 10px 'JetBrains Mono',monospace; letter-spacing:.08em; text-transform:uppercase; }
+  .cert-ref{ margin:12px 0 0!important; font-size:11px!important; color:var(--mist-dim)!important; }
+  .cert-ref a{ color:var(--gold); }
+  .criterion{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:8px 0; border-top:1px solid rgba(140,160,179,.14); }
+  .criterion span:first-child{ color:#aebdca; font-size:12.5px; line-height:1.45; }
+  .criterion-toggle{ min-width:58px; border:1px solid var(--mist-dim); background:transparent; color:var(--mist); padding:5px 7px; cursor:pointer; font:9.5px 'JetBrains Mono',monospace; letter-spacing:.05em; text-transform:uppercase; }
+  .criterion-toggle[aria-pressed="true"]{ border-color:var(--gold); background:rgba(201,162,39,.12); color:var(--gold-soft); }
+  .toggle{ width:46px; height:26px; border:1px solid var(--mist-dim); position:relative; cursor:pointer; background:transparent; flex-shrink:0; transition:border-color .2s ease; }
+  .toggle .knob{ position:absolute; top:2px; left:2px; width:19px; height:19px; background:var(--mist-dim); transition:left .2s ease, background .2s ease; }
+  .toggle[aria-pressed="true"]{ border-color:var(--gold);}
+  .toggle[aria-pressed="true"] .knob{ left:23px; background:var(--gold);}
+  .theme-percent{ width:62px; height:62px; border:1px solid var(--mist-dim); display:flex; align-items:center; justify-content:center; flex-shrink:0; color:var(--gold-soft); font:600 13px 'JetBrains Mono',monospace; background:rgba(15,27,41,.65); }
+  .theme-percent.complete{ border-color:var(--gold); background:rgba(201,162,39,.1); }
+
+  .gauge-card{ border:1px solid rgba(140,160,179,0.25); background:var(--navy-900); padding:26px; text-align:center; position:sticky; top:100px; }
+  .gauge-label{ font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.12em; color:var(--mist-dim); text-transform:uppercase; margin-bottom:14px;}
+  .gauge-score{ font-family:'Source Serif 4',serif; font-size:44px; color:#F2EEE1; margin:10px 0 4px;}
+  .gauge-msg{ font-size:13px; color:var(--mist); min-height:38px; line-height:1.5; margin-bottom:18px;}
+  .report-modal{ position:fixed; inset:0; z-index:100; display:none; align-items:center; justify-content:center; padding:22px; background:rgba(4,10,17,.88); }
+  .report-modal.open{ display:flex; }
+  .report-dialog{ width:min(680px,100%); max-height:92vh; overflow:auto; background:var(--navy-900); border:1px solid rgba(140,160,179,.4); padding:32px; box-shadow:0 22px 70px rgba(0,0,0,.55); }
+  .report-dialog h2{ font-size:27px; margin:10px 0; }
+  .report-dialog>p{ font-size:13px; }
+  .report-fields{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:20px 0 12px; }
+  .report-fields input{ width:100%; padding:12px; background:var(--navy-950); border:1px solid rgba(140,160,179,.4); color:#F2EEE1; font:13px Inter,sans-serif; }
+  .report-fields input:focus{ outline:1px solid var(--gold); border-color:var(--gold); }
+  .callback-box{ display:flex; gap:10px; align-items:flex-start; border:1px solid rgba(140,160,179,.25); padding:13px; color:#dbe2e8; font-size:13px; }
+  .callback-box input{ accent-color:var(--gold); margin-top:3px; }
+  .report-actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:18px; }
+  .report-note{ font-size:11px!important; color:var(--mist-dim)!important; }
+  @media(max-width:620px){ .report-fields{grid-template-columns:1fr}.theme-percent{width:52px;height:52px} }
+
+  .contact-card{
+    background:var(--navy-900); border:1px solid rgba(140,160,179,0.25);
+    padding:44px; display:grid; grid-template-columns:1.1fr 0.9fr; gap:40px; align-items:center;
+  }
+  @media (max-width:800px){ .contact-card{ grid-template-columns:1fr; padding:30px;} }
+  .contact-card h2{ font-size:28px; margin-bottom:14px;}
+  .contact-card p{ color:var(--mist); font-size:14.5px; line-height:1.7;}
+  .contact-actions{ display:flex; flex-direction:column; gap:12px;}
+  .contact-line{
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    border:1px solid rgba(140,160,179,0.3); padding:14px 16px;
+    font-family:'JetBrains Mono',monospace; font-size:12.5px; color:#dbe2e8;
+    text-decoration:none; transition:border-color .2s ease, background .2s ease;
+  }
+  .contact-line:hover, .contact-line:focus-visible{ border-color:var(--gold); background:rgba(201,162,39,0.06);}
+  .contact-line span.arrow{ color:var(--gold);}
+  .tag-rdv{
+    display:inline-block; font-family:'JetBrains Mono',monospace; font-size:10.5px;
+    letter-spacing:0.08em; text-transform:uppercase; color:var(--red);
+    border:1px solid var(--red); padding:5px 10px; margin-top:6px;
+  }
+  .calendar-card{ margin-top:22px; border-top:1px solid rgba(140,160,179,.2); padding-top:20px; }
+  .calendar-title{ font-family:'JetBrains Mono',monospace; color:#F2EEE1; font-size:12px; letter-spacing:.08em; text-transform:uppercase; margin-bottom:14px; }
+  .calendar-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+  .date-slot,.time-slot{ border:1px solid rgba(140,160,179,.35); background:transparent; color:#dbe2e8; padding:10px 6px; cursor:pointer; font-family:'JetBrains Mono',monospace; font-size:10.5px; text-align:center; }
+  .date-slot:hover,.date-slot:focus-visible,.time-slot:hover,.time-slot:focus-visible{ border-color:var(--gold); }
+  .date-slot.selected,.time-slot.selected{ background:var(--gold); color:var(--navy-950); border-color:var(--gold); font-weight:700; }
+  .time-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:12px 0; }
+  .booking-fields{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; }
+  .booking-fields input{ width:100%; background:var(--navy-950); border:1px solid rgba(140,160,179,.35); color:#F2EEE1; padding:12px; font:12px 'Inter',sans-serif; }
+  .booking-fields input:focus{ outline:1px solid var(--gold); border-color:var(--gold); }
+  .booking-status{ min-height:20px; margin:10px 0 0; color:var(--gold-soft); font-size:12px; }
+  @media(max-width:620px){ .calendar-grid,.time-grid{grid-template-columns:repeat(2,1fr)} .booking-fields{grid-template-columns:1fr} }
+
+  footer{ padding:34px 0 44px; text-align:center; }
+  footer p{ font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--mist-dim); letter-spacing:0.04em;}
+  .footer-links{ display:flex; justify-content:center; flex-wrap:wrap; gap:8px 20px; margin-bottom:16px; }
+  .footer-links a{ color:var(--mist); font:10.5px 'JetBrains Mono',monospace; text-decoration:none; border-bottom:1px solid transparent; }
+  .footer-links a:hover,.footer-links a:focus-visible{ color:var(--gold-soft); border-color:var(--gold); }
+
+  section#apropos{scroll-margin-top:70px;}
+  section#services{scroll-margin-top:70px;}
+  section#diagnostic{scroll-margin-top:70px;}
+  section#contact{scroll-margin-top:70px;}
+  section#rendezvous{scroll-margin-top:70px;}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#top" class="brand"><span class="mark">TW</span> TWAGIRUMUKIZA</a>
+    <nav class="links">
+      <a href="#apropos">À propos</a>
+      <a href="#services">Dossiers</a>
+      <a href="#diagnostic">Auto-diagnostic</a>
+      <a href="#rendezvous" class="nav-cta">Prendre rendez-vous</a>
+    </nav>
+    <div class="nav-tools" aria-label="Préférences d’affichage">
+      <button class="utility-btn" id="langToggle" type="button" aria-label="Passer en anglais">EN</button>
+      <button class="utility-btn" id="themeToggle" type="button" aria-label="Activer le thème clair">☀︎</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow">Gouvernance · Risque · Conformité</div>
+        <h1>Conseil, audit &amp; formation<br>en cybersécurité pour<br><em>organisations exigeantes</em></h1>
+        <p class="lede">J’accompagne DSI, RSSI, chefs de projet et organisations dans la sécurisation de leurs systèmes et leur mise en conformité — RGPD, NIS2, DORA, AI Act — avec une méthode agile et pédagogique.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#contact">Ouvrir un dossier</a>
+          <a class="btn btn-ghost" href="#services">Consulter les services</a>
+        </div>
+      </div>
+      <div class="stamp-wrap">
+        <div class="stamp">
+          <div class="stamp-text">
+            <span class="big">CONFIDENTIEL</span>
+            <span class="small">GRC &amp; CYBERSÉCURITÉ</span>
+            <span class="ref">DOSSIER N° TW–2026 · PARIS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="apropos">
+    <div class="wrap">
+      <div class="about-grid">
+        <div class="reveal">
+          <div class="eyebrow">Présentation</div>
+          <h2 style="margin-top:14px; font-size:30px;">À propos du dossier</h2>
+          <p style="margin-top:20px;">Consultant en gouvernance, risque et conformité (GRC), formateur en cybersécurité et consultant digital, j’accompagne depuis plusieurs années des organisations publiques et privées dans le renforcement de leur posture de sécurité et leur mise en conformité réglementaire.</p>
+          <p>J’interviens également comme enseignant dans des programmes Master et MBA (gouvernance, audit, cybersécurité) — une pédagogie exigeante et concrète que l’on retrouve dans chaque accompagnement. Mon approche combine rigueur méthodologique, agilité opérationnelle et transmission des compétences, afin que la cybersécurité devienne un véritable atout stratégique pour votre organisation.</p>
+        </div>
+        <div class="reveal">
+          <div class="articles">
+            <div class="article">
+              <div class="art-num mono">ART. 1</div>
+              <div><h4>Satisfaction clientèle</h4><p>Chaque organisation est unique ; les solutions apportées sont personnalisées et adaptées à vos enjeux spécifiques.</p></div>
+            </div>
+            <div class="article">
+              <div class="art-num mono">ART. 2</div>
+              <div><h4>Collaboration active</h4><p>Votre stratégie de cybersécurité se construit ensemble, pour une mise en œuvre efficace et durable.</p></div>
+            </div>
+            <div class="article">
+              <div class="art-num mono">ART. 3</div>
+              <div><h4>Transmission des connaissances</h4><p>Montée en compétences des équipes, pour que la cybersécurité devienne un atout interne.</p></div>
+            </div>
+            <div class="article">
+              <div class="art-num mono">ART. 4</div>
+              <div><h4>Agilité &amp; flexibilité</h4><p>Une gestion de projet en mode agile, qui avance par étapes vers des résultats concrets et mesurables.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow">Services</div>
+        <h2>Cinq dossiers, une méthode</h2>
+        <p>Chaque dossier se consulte indépendamment. Cliquez sur un intitulé pour l’ouvrir et voir le détail de l’accompagnement proposé.</p>
+      </div>
+
+      <div id="dossier-list">
+        <article class="dossier" data-open="false">
+          <button class="dossier-tab" aria-expanded="false">
+            <span class="dossier-index mono">01</span>
+            <span class="dossier-title">
+              <h3>Audit &amp; recommandations cybersécurité</h3>
+              <span class="dossier-ref">RÉF. MÉTHODE — 6 AXES D’AUDIT</span>
+            </span>
+            <span class="dossier-hint">Consulter</span>
+            <span class="dossier-plus" aria-hidden="true"></span>
+          </button>
+          <div class="dossier-panel">
+            <div class="dossier-panel-inner">
+              <p class="intro">Pour toute entité publique, association ou entreprise souhaitant initier une démarche de sécurisation informatique : un accompagnement personnalisé structuré autour d’un audit de pré-diagnostic, pour identifier vos points forts et vos axes d’amélioration prioritaires.</p>
+              <ul class="checklist">
+                <li><span><b>Gouvernance</b> — structuration et pilotage de votre stratégie de cybersécurité.</span></li>
+                <li><span><b>Sécurité des accès</b> — protection des identifiants et des systèmes d’authentification.</span></li>
+                <li><span><b>Sécurité des postes</b> — renforcement de la protection des équipements et logiciels.</span></li>
+                <li><span><b>Infrastructures &amp; données</b> — prévention des risques liés aux réseaux et informations sensibles.</span></li>
+                <li><span><b>Sensibilisation des utilisateurs</b> — formation et bonnes pratiques pour limiter les risques humains.</span></li>
+                <li><span><b>Réaction aux cyberattaques</b> — anticipation et gestion des incidents pour une meilleure résilience.</span></li>
+              </ul>
+              <p class="why-title">Livrable</p>
+              <ul class="why-list">
+                <li>Un indicateur de maturité pour chaque thématique</li>
+                <li>Une liste de six mesures prioritaires</li>
+                <li>Des ressources complémentaires adaptées à vos enjeux</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="dossier" data-open="false">
+          <button class="dossier-tab" aria-expanded="false">
+            <span class="dossier-index mono">02</span>
+            <span class="dossier-title">
+              <h3>Mise en conformité RGPD</h3>
+              <span class="dossier-ref">RÈGL. (UE) 2016/679</span>
+            </span>
+            <span class="dossier-hint">Consulter</span>
+            <span class="dossier-plus" aria-hidden="true"></span>
+          </button>
+          <div class="dossier-panel">
+            <div class="dossier-panel-inner">
+              <p class="intro">La protection des données personnelles est un enjeu majeur pour toute organisation. Un non-respect du règlement peut entraîner des sanctions financières significatives et nuire durablement à votre réputation.</p>
+              <ul class="checklist">
+                <li><span><b>Audit de conformité</b> — identification des écarts et des actions prioritaires.</span></li>
+                <li><span><b>Mesures obligatoires</b> — registre des traitements, mentions légales, politique de confidentialité.</span></li>
+                <li><span><b>Sensibilisation des équipes</b> — bonnes pratiques et responsabilisation des collaborateurs.</span></li>
+                <li><span><b>Sécurisation des données</b> — protection contre les violations et cyberattaques.</span></li>
+              </ul>
+              <p class="why-title">Pourquoi agir maintenant</p>
+              <ul class="why-list">
+                <li>Éviter les amendes et renforcer la confiance de vos clients</li>
+                <li>Protéger votre entreprise contre les risques juridiques et informatiques</li>
+                <li>Bénéficier d’un accompagnement sur mesure</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="dossier" data-open="false">
+          <button class="dossier-tab" aria-expanded="false">
+            <span class="dossier-index mono">03</span>
+            <span class="dossier-title">
+              <h3>Mise en conformité NIS2</h3>
+              <span class="dossier-ref">DIR. (UE) 2022/2555</span>
+            </span>
+            <span class="dossier-hint">Consulter</span>
+            <span class="dossier-plus" aria-hidden="true"></span>
+          </button>
+          <div class="dossier-panel">
+            <div class="dossier-panel-inner">
+              <p class="intro">La directive NIS2 impose de nouvelles obligations aux entreprises et organisations pour améliorer leur résilience face aux cybermenaces. Anticiper cette mise en conformité permet d’éviter les risques plutôt que de les subir.</p>
+              <ul class="checklist">
+                <li><span><b>Audit de conformité NIS2</b> — évaluation des écarts et des actions à mener.</span></li>
+                <li><span><b>Renforcement de la cybersécurité</b> — protection des infrastructures critiques et des données.</span></li>
+                <li><span><b>Obligations légales</b> — gouvernance, gestion des risques, plan de réponse aux incidents.</span></li>
+                <li><span><b>Sensibilisation &amp; formation</b> — implication des équipes pour une sécurité durable.</span></li>
+              </ul>
+              <p class="why-title">Pourquoi agir dès maintenant</p>
+              <ul class="why-list">
+                <li>Éviter les sanctions et assurer votre conformité réglementaire</li>
+                <li>Renforcer la résilience face aux cyberattaques</li>
+                <li>Gagner en crédibilité auprès de vos clients et partenaires</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="dossier" data-open="false">
+          <button class="dossier-tab" aria-expanded="false">
+            <span class="dossier-index mono">04</span>
+            <span class="dossier-title">
+              <h3>Résilience numérique — DORA</h3>
+              <span class="dossier-ref">RÈGL. (UE) 2022/2554</span>
+            </span>
+            <span class="dossier-hint">Consulter</span>
+            <span class="dossier-plus" aria-hidden="true"></span>
+          </button>
+          <div class="dossier-panel">
+            <div class="dossier-panel-inner">
+              <p class="intro">Le règlement DORA impose aux acteurs du secteur financier de renforcer leur résilience face aux cybermenaces et aux incidents opérationnels. Anticiper cette mise en conformité, c’est transformer une contrainte réglementaire en avantage stratégique.</p>
+              <ul class="checklist">
+                <li><span><b>Audit de conformité</b> — évaluation de votre maturité et des écarts à combler.</span></li>
+                <li><span><b>Renforcement de la cybersécurité</b> — protection des systèmes, gestion des risques, surveillance continue.</span></li>
+                <li><span><b>Plan de gestion des incidents</b> — processus robustes et réponse efficace aux crises.</span></li>
+                <li><span><b>Conformité avec les tiers</b> — sécurisation des relations avec vos prestataires numériques.</span></li>
+              </ul>
+              <p class="why-title">Pourquoi agir maintenant</p>
+              <ul class="why-list">
+                <li>Éviter les sanctions et garantir votre conformité réglementaire</li>
+                <li>Protéger vos systèmes et données contre les cyberattaques</li>
+                <li>Renforcer la confiance de vos clients, partenaires et régulateurs</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="dossier" data-open="false">
+          <button class="dossier-tab" aria-expanded="false">
+            <span class="dossier-index mono">05</span>
+            <span class="dossier-title">
+              <h3>Formation Agile — SCRUM, Lean Startup &amp; Kanban</h3>
+              <span class="dossier-ref">MÉTHODE — SCRUM / LEAN / KANBAN</span>
+            </span>
+            <span class="dossier-hint">Consulter</span>
+            <span class="dossier-plus" aria-hidden="true"></span>
+          </button>
+          <div class="dossier-panel">
+            <div class="dossier-panel-inner">
+              <p class="intro">Dans un environnement où les cybermenaces évoluent sans cesse, les méthodes agiles sont des atouts essentiels pour piloter vos projets de cybersécurité. Que vous soyez DSI, RSSI, chef de projet ou consultant, adoptez des pratiques éprouvées pour réagir rapidement aux incidents.</p>
+              <ul class="checklist">
+                <li><span><b>SCRUM</b> — structurer vos projets cybersécurité avec des sprints courts et une gestion efficace des priorités.</span></li>
+                <li><span><b>Lean Startup</b> — tester rapidement vos stratégies de protection et ajuster votre approche selon les risques réels.</span></li>
+                <li><span><b>Kanban</b> — visualiser le cycle de vie des menaces et fluidifier la gestion des incidents.</span></li>
+              </ul>
+              <p class="why-title">Pourquoi suivre cette formation</p>
+              <ul class="why-list">
+                <li>Accélérer vos projets grâce à une approche itérative et flexible</li>
+                <li>Renforcer la résilience face aux cyberattaques</li>
+                <li>Améliorer la coordination entre équipes IT et sécurité</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="diagnostic">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow">Auto-diagnostic express</div>
+        <h2>Où en est votre organisation ?</h2>
+        <p>Neuf axes et soixante-six critères pour une première estimation de votre niveau de maturité en cybersécurité. L’axe IA intègre les recommandations du bulletin CERTFR-2026-ACT-016. Indicatif — un audit complet affine ce résultat.</p>
+      </div>
+      <div class="diag-grid">
+        <div class="reveal" id="diag-questions">
+          <div class="diag-item" data-theme="Gouvernance" data-recommendation="Formaliser la politique de sécurité, les responsabilités, la cartographie des risques et le pilotage par la direction.">
+            <div class="diag-content"><p>Votre gouvernance cybersécurité est-elle formalisée (rôles, responsabilités, politique écrite) ?</p><button class="diag-detail-btn" aria-expanded="false">Comprendre ce thème +</button><div class="diag-detail"><p class="detail-intro">Validez séparément chaque élément réellement en place :</p><div class="criteria-list"><div class="criterion"><span>Politique de sécurité écrite et validée</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Responsable identifié : RSSI, DSI ou référent</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Rôles et responsabilités clairement répartis</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Cartographie des risques tenue à jour</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Indicateurs de suivi définis</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Revue régulière avec la direction</span><button class="criterion-toggle" aria-pressed="false">Non</button></div></div></div></div>
+            <div class="theme-percent" aria-label="Maturité Gouvernance">0 %</div>
+          </div>
+          <div class="diag-item" data-theme="Authentification et accès" data-recommendation="Déployer une authentification multifacteur robuste sur les comptes sensibles, administrateurs, cloud, VPN et messagerie.">
+            <div class="diag-content"><p>L’authentification renforcée (MFA) est-elle déployée sur vos accès sensibles ?</p><button class="diag-detail-btn" aria-expanded="false">Comprendre ce thème +</button><div class="diag-detail"><p class="detail-intro">Le MFA ajoute une seconde preuve après le mot de passe. Validez les protections actives :</p><div class="criteria-list"><div class="criterion"><span>Application mobile d’authentification</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Validation sécurisée dans le navigateur</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Clé physique ou clé d’accès (passkey)</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Biométrie sur les appareils compatibles</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Messagerie, VPN et cloud protégés</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Comptes administrateurs protégés en priorité</span><button class="criterion-toggle" aria-pressed="false">Non</button></div></div></div></div>
+            <div class="theme-percent" aria-label="Maturité Authentification et accès">0 %</div>
+          </div>
+          <div class="diag-item" data-theme="Mises à jour et vulnérabilités" data-recommendation="Centraliser l’inventaire, automatiser les mises à jour et fixer des délais de correction selon la criticité.">
+            <div class="diag-content"><p>Vos postes et logiciels sont-ils maintenus à jour de façon systématique ?</p><button class="diag-detail-btn" aria-expanded="false">Comprendre ce thème +</button><div class="diag-detail"><p class="detail-intro">Validez séparément chaque pratique appliquée :</p><div class="criteria-list"><div class="criterion"><span>Mises à jour automatiques des ordinateurs</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Smartphones et tablettes maintenus à jour</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Serveurs et équipements réseau corrigés</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Navigateurs et applications mis à jour</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Logiciels non supportés remplacés</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Correctifs critiques traités en priorité</span><button class="criterion-toggle" aria-pressed="false">Non</button></div></div></div></div>
+            <div class="theme-percent" aria-label="Maturité Mises à jour et vulnérabilités">0 %</div>
+          </div>
+          <div class="diag-item" data-theme="Sauvegardes et continuité" data-recommendation="Mettre en œuvre la règle 3-2-1, isoler une copie et tester périodiquement la restauration et les délais de reprise.">
+            <div class="diag-content"><p>Vos sauvegardes sont-elles testées régulièrement (restauration vérifiée) ?</p><button class="diag-detail-btn" aria-expanded="false">Comprendre ce thème +</button><div class="diag-detail"><p class="detail-intro">Sauvegarder ne suffit pas : il faut réussir à restaurer. Validez vos garanties :</p><div class="criteria-list"><div class="criterion"><span>Trois copies des données disponibles</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Deux supports ou environnements distincts</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Une copie hors ligne ou externalisée</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Sauvegardes chiffrées et droits séparés</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Erreurs de sauvegarde surveillées</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Restauration testée et délais vérifiés</span><button class="criterion-toggle" aria-pressed="false">Non</button></div></div></div></div>
+            <div class="theme-percent" aria-label="Maturité Sauvegardes et continuité">0 %</div>
+          </div>
+          <div class="diag-item" data-theme="Sensibilisation" data-recommendation="Structurer un programme annuel, des rappels réguliers et des exercices adaptés aux fonctions les plus exposées.">
+            <div class="diag-content"><p>Vos équipes bénéficient-elles d’une sensibilisation régulière aux risques cyber ?</p><button class="diag-detail-btn" aria-expanded="false">Comprendre ce thème +</button><div class="diag-detail"><p class="detail-intro">Validez séparément les actions réellement organisées :</p><div class="criteria-list"><div class="criterion"><span>Sensibilisation lors de l’arrivée</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Formation renouvelée au moins chaque année</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Rappels courts diffusés régulièrement</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Exercices d’hameçonnage réalisés</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Procédure de signalement connue</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Contenus adaptés aux fonctions exposées</span><button class="criterion-toggle" aria-pressed="false">Non</button></div></div></div></div>
+            <div class="theme-percent" aria-label="Maturité Sensibilisation">0 %</div>
+          </div>
+          <div class="diag-item" data-theme="Gestion des incidents" data-recommendation="Formaliser une procédure de détection, d’alerte, de qualification, de confinement et de retour d’expérience, puis la tester en exercice.">
+            <div class="diag-content"><p>Votre organisation est-elle préparée à détecter et gérer un incident de cybersécurité ?</p><button class="diag-detail-btn" aria-expanded="false">Comprendre ce thème +</button><div class="diag-detail"><p class="detail-intro">Validez séparément les capacités réellement opérationnelles :</p><div class="criteria-list"><div class="criterion"><span>Procédure de réponse aux incidents documentée</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Canal d’alerte connu des équipes</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Responsables et cellule de crise identifiés</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Journalisation et détection surveillées</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Exercices de crise réalisés</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Retour d’expérience après incident</span><button class="criterion-toggle" aria-pressed="false">Non</button></div></div></div></div><div class="theme-percent" aria-label="Maturité Gestion des incidents">0 %</div>
+          </div>
+          <div class="diag-item" data-theme="Prestataires et chaîne d’approvisionnement" data-recommendation="Évaluer les risques fournisseurs, intégrer des exigences de sécurité aux contrats et organiser le suivi des prestataires critiques.">
+            <div class="diag-content"><p>Les risques liés à vos prestataires et fournisseurs numériques sont-ils maîtrisés ?</p><button class="diag-detail-btn" aria-expanded="false">Comprendre ce thème +</button><div class="diag-detail"><p class="detail-intro">Validez les mesures appliquées à votre chaîne d’approvisionnement :</p><div class="criteria-list"><div class="criterion"><span>Prestataires critiques identifiés</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Évaluation sécurité avant contractualisation</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Clauses de sécurité et de notification prévues</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Accès des prestataires limités et revus</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Preuves de conformité demandées</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Plan de sortie ou de réversibilité prévu</span><button class="criterion-toggle" aria-pressed="false">Non</button></div></div></div></div><div class="theme-percent" aria-label="Maturité Prestataires">0 %</div>
+          </div>
+          <div class="diag-item" data-theme="Actifs et données" data-recommendation="Tenir un inventaire des actifs, classifier les données, définir les propriétaires et appliquer des mesures de protection selon la sensibilité.">
+            <div class="diag-content"><p>Vos actifs numériques et vos données sensibles sont-ils identifiés et classifiés ?</p><button class="diag-detail-btn" aria-expanded="false">Comprendre ce thème +</button><div class="diag-detail"><p class="detail-intro">Validez les fondations de connaissance et de protection :</p><div class="criteria-list"><div class="criterion"><span>Inventaire matériel tenu à jour</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Inventaire des logiciels et services cloud</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Données sensibles identifiées et classifiées</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Propriétaires des actifs désignés</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Droits d’accès revus périodiquement</span><button class="criterion-toggle" aria-pressed="false">Non</button></div><div class="criterion"><span>Durées de conservation et suppression définies</span><button class="criterion-toggle" aria-pressed="false">Non</button></div></div></div></div><div class="theme-percent" aria-label="Maturité Actifs et données">0 %</div>
+          </div>
+          <div class="diag-item" data-theme="Usage, gouvernance et sécurité de l’IA" data-recommendation="Cartographier les usages de l’IA, formaliser une politique, protéger les données et appliquer aux agents IA autonomes les mesures de restriction, d’isolement, d’approbation humaine, de journalisation et de révocation recommandées par le CERT-FR.">
+            <div class="diag-content"><p>Votre organisation connaît-elle, encadre-t-elle et sécurise-t-elle réellement les usages de l’intelligence artificielle, notamment agentique ?</p><button class="diag-detail-btn" aria-expanded="false">Comprendre ce thème +</button><div class="diag-detail"><p class="detail-intro">Validez uniquement les mesures effectivement appliquées et vérifiables :</p><div class="criteria-list">
+              <div class="criteria-subtitle">A · Gouvernance et usages de l’IA</div>
+              <div class="criterion"><span>Outils, modèles et usages de l’IA recensés</span><button class="criterion-toggle" aria-pressed="false">Non</button></div>
+              <div class="criterion"><span>Politique d’utilisation de l’IA formalisée</span><button class="criterion-toggle" aria-pressed="false">Non</button></div>
+              <div class="criterion"><span>Données sensibles interdites ou protégées</span><button class="criterion-toggle" aria-pressed="false">Non</button></div>
+              <div class="criterion"><span>Validation humaine des résultats importants</span><button class="criterion-toggle" aria-pressed="false">Non</button></div>
+              <div class="criterion"><span>Risques, biais et conformité AI Act évalués</span><button class="criterion-toggle" aria-pressed="false">Non</button></div>
+              <div class="criterion"><span>Collaborateurs formés aux usages responsables</span><button class="criterion-toggle" aria-pressed="false">Non</button></div>
+              <div class="criteria-subtitle">B · Sécurité des agents IA autonomes · CERT-FR</div>
+              <div class="criterion"><span>Agents IA installés sur postes et mobiles recensés</span><button class="criterion-toggle" aria-pressed="false">Non</button></div>
+              <div class="criterion"><span>Outils non validés par la DSI ou le RSSI bloqués</span><button class="criterion-toggle" aria-pressed="false">Non</button></div>
+              <div class="criterion"><span>Agents IA non éprouvés interdits en production</span><button class="criterion-toggle" aria-pressed="false">Non</button></div>
+              <div class="criterion"><span>Tests réalisés en bac à sable sans données sensibles</span><button class="criterion-toggle" aria-pressed="false">Non</button></div>
+              <div class="criterion"><span>Plugins, extensions, outils et commandes contrôlés par liste blanche</span><button class="criterion-toggle" aria-pressed="false">Non</button></div>
+              <div class="criterion"><span>Permissions et accès limités au strict nécessaire</span><button class="criterion-toggle" aria-pressed="false">Non</button></div>
+              <div class="criterion"><span>Mots de passe, clés API et secrets jamais transmis aux agents</span><button class="criterion-toggle" aria-pressed="false">Non</button></div>
+              <div class="criterion"><span>Approbation humaine obligatoire avant toute action sensible</span><button class="criterion-toggle" aria-pressed="false">Non</button></div>
+              <div class="criterion"><span>Canaux, groupes et interlocuteurs autorisés limités par liste blanche</span><button class="criterion-toggle" aria-pressed="false">Non</button></div>
+              <div class="criterion"><span>Actions des agents journalisées, surveillées et auditables</span><button class="criterion-toggle" aria-pressed="false">Non</button></div>
+              <div class="criterion"><span>Injections de prompt et exfiltrations testées</span><button class="criterion-toggle" aria-pressed="false">Non</button></div>
+              <div class="criterion"><span>Procédure d’arrêt et de révocation immédiate des accès</span><button class="criterion-toggle" aria-pressed="false">Non</button></div>
+            </div><p class="cert-ref">Référence : <a href="https://www.cert.ssi.gouv.fr/actualite/CERTFR-2026-ACT-016/" target="_blank" rel="noopener">CERTFR-2026-ACT-016 — Vulnérabilités et risques des produits d’automatisation par IA agentique ↗</a></p></div></div><div class="theme-percent" aria-label="Maturité Usage, gouvernance et sécurité de l’IA">0 %</div>
+          </div>
+        </div>
+        <div class="reveal gauge-card">
+          <div class="gauge-label">Indicateur de maturité</div>
+          <svg width="160" height="90" viewBox="0 0 160 90" style="margin:0 auto;">
+            <path d="M15,85 A65,65 0 0,1 145,85" fill="none" stroke="#223a56" stroke-width="10" stroke-linecap="round"/>
+            <path id="gaugeArc" d="M15,85 A65,65 0 0,1 145,85" fill="none" stroke="#C9A227" stroke-width="10" stroke-linecap="round"
+                  stroke-dasharray="204" stroke-dashoffset="204"/>
+          </svg>
+          <div class="gauge-score" id="gaugeScore">0<span style="font-size:20px;color:var(--mist-dim);">/100</span></div>
+          <div class="gauge-msg" id="gaugeMsg">Cochez les critères en place pour obtenir votre estimation.</div>
+          <button type="button" id="openReport" class="btn btn-primary" style="width:100%; justify-content:center;">Recevoir mon rapport</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact-card reveal">
+        <div>
+          <div class="eyebrow">Prochaine étape</div>
+          <h2>Ouvrons votre dossier</h2>
+          <p>Chaque organisation avance à son rythme et selon ses priorités. Que vous souhaitiez démarrer par un audit, une mise en conformité ciblée ou une formation pour vos équipes, je vous propose un premier échange pour construire ensemble une feuille de route adaptée.</p>
+          <span class="tag-rdv">Sur rendez-vous uniquement · Paris</span>
+        </div>
+        <div class="contact-actions">
+          <a class="contact-line" href="mailto:inno.twa@gmail.com?subject=Demande%20de%20rendez-vous%20%E2%80%94%20GRC%20%26%20Cybers%C3%A9curit%C3%A9">
+            <span>inno.twa@gmail.com</span><span class="arrow">↗</span>
+          </a>
+          <a class="contact-line" href="https://www.linkedin.com/in/innocent-twagirumukiza" target="_blank" rel="noopener">
+            <span>LinkedIn — Innocent Twagirumukiza</span><span class="arrow">↗</span>
+          </a>
+          <div class="calendar-card" id="rendezvous">
+            <div class="calendar-title">Choisir un rendez-vous · 30 min</div>
+            <div class="calendar-grid" id="calendarDates" aria-label="Dates disponibles"></div>
+            <div class="time-grid" id="calendarTimes" aria-label="Créneaux disponibles"></div>
+            <div class="booking-fields">
+              <input id="bookingName" type="text" autocomplete="name" placeholder="Votre nom *" aria-label="Votre nom">
+              <input id="bookingEmail" type="email" autocomplete="email" placeholder="Votre e-mail *" aria-label="Votre e-mail">
+            </div>
+            <p class="booking-status" id="bookingStatus" aria-live="polite">Sélectionnez une date et un horaire.</p>
+            <button class="btn btn-primary" id="bookingSubmit" type="button" style="width:100%;justify-content:center;">Demander ce rendez-vous</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="report-modal" id="reportModal" role="dialog" aria-modal="true" aria-labelledby="reportTitle">
+  <div class="report-dialog">
+    <div class="eyebrow">Rapport personnalisé</div>
+    <h2 id="reportTitle">Recevoir votre diagnostic</h2>
+    <p>Votre rapport reprend le score global, le résultat de chaque axe, les critères à renforcer, des recommandations prioritaires et l’accompagnement proposé.</p>
+    <div class="report-fields">
+      <input id="reportName" type="text" autocomplete="name" placeholder="Nom et prénom *" aria-label="Nom et prénom">
+      <input id="reportOrg" type="text" autocomplete="organization" placeholder="Nom de l’organisme *" aria-label="Nom de l’organisme">
+      <input id="reportEmail" type="email" autocomplete="email" placeholder="Adresse e-mail *" aria-label="Adresse e-mail">
+      <input id="reportPhone" type="tel" autocomplete="tel" placeholder="Téléphone (si rappel)" aria-label="Téléphone">
+    </div>
+    <label class="callback-box"><input id="reportCallback" type="checkbox"><span>Je souhaite être rappelé(e) au sujet de ce diagnostic et j’accepte que mes coordonnées soient utilisées à cette fin.</span></label>
+    <p class="report-note">Le rapport complet sera téléchargé sur votre appareil. Un e-mail récapitulatif sera préparé dans votre messagerie ; si vous demandez un rappel, Innocent Twagirumukiza sera ajouté en copie cachée afin de recevoir la notification.</p>
+    <p class="booking-status" id="reportStatus" aria-live="polite"></p>
+    <div class="report-actions"><button type="button" class="btn btn-primary" id="generateReport">Générer mon rapport</button><button type="button" class="btn btn-ghost" id="closeReport">Annuler</button></div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="politique-confidentialite.html" target="_blank" rel="noopener">Politique de confidentialité (Nouvelle fenêtre) <span aria-hidden="true">↗</span></a>
+    <a href="cgu-mentions-legales.html" target="_blank" rel="noopener">CGU et mentions légales (Nouvelle fenêtre) <span aria-hidden="true">↗</span></a>
+  </div>
+  <p>TWAGIRUMUKIZA — GRC &amp; CYBERSÉCURITÉ — DOSSIER CONSULTABLE SUR RENDEZ-VOUS</p>
+</footer>
+
+<script>
+  document.querySelectorAll('.dossier').forEach(function(dossier){
+    var tab = dossier.querySelector('.dossier-tab');
+    var panel = dossier.querySelector('.dossier-panel');
+    tab.addEventListener('click', function(){
+      var isOpen = dossier.getAttribute('data-open') === 'true';
+      document.querySelectorAll('.dossier').forEach(function(d){
+        if(d !== dossier){
+          d.setAttribute('data-open','false');
+          d.querySelector('.dossier-tab').setAttribute('aria-expanded','false');
+          d.querySelector('.dossier-panel').style.maxHeight = null;
+        }
+      });
+      if(isOpen){
+        dossier.setAttribute('data-open','false');
+        tab.setAttribute('aria-expanded','false');
+        panel.style.maxHeight = null;
+      } else {
+        dossier.setAttribute('data-open','true');
+        tab.setAttribute('aria-expanded','true');
+        panel.style.maxHeight = panel.scrollHeight + 'px';
+      }
+    });
+  });
+
+  var score = 0;
+  var criterionToggles = document.querySelectorAll('#diag-questions .criterion-toggle');
+  var scoreEl = document.getElementById('gaugeScore');
+  var msgEl = document.getElementById('gaugeMsg');
+  var arc = document.getElementById('gaugeArc');
+  var ARC_LEN = 204;
+
+  function messageFor(s){
+    var en=window.currentLanguage==='en';
+    if(s === 0) return en?"Select the implemented criteria to obtain your estimate.":"Cochez les critères en place pour obtenir votre estimation.";
+    if(s <= 40) return en?"Significant room for improvement — a preliminary audit will help prioritize actions.":"Marge de progression importante — un audit de pré-diagnostic permettra de prioriser vos actions.";
+    if(s <= 70) return en?"Foundations are in place, but several areas need strengthening.":"Des bases sont posées : plusieurs axes méritent d’être renforcés.";
+    return en?"Good maturity level — let’s refine the remaining details together.":"Bon niveau de maturité : affinons les derniers détails ensemble.";
+  }
+
+  function updateGauge(){
+    scoreEl.childNodes[0].nodeValue = score;
+    msgEl.textContent = messageFor(score);
+    var offset = ARC_LEN - (ARC_LEN * (score/100));
+    arc.style.transition = 'stroke-dashoffset .5s ease';
+    arc.style.strokeDashoffset = offset;
+  }
+
+  function recomputeScore(){
+    var checked = document.querySelectorAll('#diag-questions .criterion-toggle[aria-pressed="true"]').length;
+    score = Math.round((checked / criterionToggles.length) * 100);
+    document.querySelectorAll('#diag-questions .diag-item').forEach(function(item){
+      var sub = item.querySelectorAll('.criterion-toggle');
+      var selected = item.querySelectorAll('.criterion-toggle[aria-pressed="true"]').length;
+      var percent = Math.round((selected / sub.length) * 100);
+      var indicator = item.querySelector('.theme-percent');
+      indicator.textContent = percent + ' %';
+      indicator.classList.toggle('complete', percent === 100);
+      indicator.setAttribute('aria-label', 'Maturité '+item.dataset.theme+' : '+percent+' %');
+    });
+    updateGauge();
+  }
+
+  criterionToggles.forEach(function(t){
+    t.addEventListener('click',function(){
+      var pressed = t.getAttribute('aria-pressed') === 'true';
+      t.setAttribute('aria-pressed', pressed ? 'false' : 'true');
+      t.textContent = window.currentLanguage==='en' ? (pressed?'No':'Yes') : (pressed?'Non':'Oui');
+      recomputeScore();
+    });
+  });
+
+  document.querySelectorAll('.diag-detail-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var detail = btn.nextElementSibling;
+      var open = detail.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.textContent = window.currentLanguage==='en' ? (open?'Hide details −':'Understand this area +') : (open?'Réduire le détail −':'Comprendre ce thème +');
+    });
+  });
+
+  var chosenDate = '';
+  var chosenTime = '';
+  var datesEl = document.getElementById('calendarDates');
+  var timesEl = document.getElementById('calendarTimes');
+  var statusEl = document.getElementById('bookingStatus');
+  function dateFormatter(){return new Intl.DateTimeFormat(window.currentLanguage==='en'?'en-GB':'fr-FR',{weekday:'short',day:'2-digit',month:'short'});}
+  function fullDateFormatter(){return new Intl.DateTimeFormat(window.currentLanguage==='en'?'en-GB':'fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});}
+  var availableDates = [];
+  var cursor = new Date();
+  cursor.setDate(cursor.getDate()+1);
+  while(availableDates.length < 8){
+    if(cursor.getDay() !== 0 && cursor.getDay() !== 6) availableDates.push(new Date(cursor));
+    cursor.setDate(cursor.getDate()+1);
+  }
+  availableDates.forEach(function(date){
+    var button = document.createElement('button');
+    button.type = 'button'; button.className = 'date-slot'; button.dataset.iso=date.toISOString(); button.textContent = dateFormatter().format(date);
+    button.addEventListener('click',function(){
+      document.querySelectorAll('.date-slot').forEach(function(b){b.classList.remove('selected');});
+      button.classList.add('selected'); chosenDate = fullDateFormatter().format(date); updateBookingStatus();
+    });
+    datesEl.appendChild(button);
+  });
+  ['09:30','11:00','14:00','16:00'].forEach(function(time){
+    var button = document.createElement('button');
+    button.type = 'button'; button.className = 'time-slot'; button.textContent = time;
+    button.addEventListener('click',function(){
+      document.querySelectorAll('.time-slot').forEach(function(b){b.classList.remove('selected');});
+      button.classList.add('selected'); chosenTime = time; updateBookingStatus();
+    });
+    timesEl.appendChild(button);
+  });
+  function updateBookingStatus(){
+    var en=window.currentLanguage==='en';
+    statusEl.textContent = chosenDate && chosenTime ? (en?'Selected slot: ':'Créneau choisi : ')+chosenDate+(en?' at ':' à ')+chosenTime+'.' : (en?'Select a date and time.':'Sélectionnez une date et un horaire.');
+  }
+  document.getElementById('bookingSubmit').addEventListener('click',function(){
+    var name = document.getElementById('bookingName').value.trim();
+    var email = document.getElementById('bookingEmail').value.trim();
+    if(!chosenDate || !chosenTime || !name || !email || !document.getElementById('bookingEmail').checkValidity()){
+      statusEl.textContent = window.currentLanguage==='en'?'Please select a slot and enter a valid name and email address.':'Merci de choisir un créneau et de renseigner un nom et un e-mail valides.'; return;
+    }
+    var subject = 'Demande de rendez-vous — GRC & Cybersécurité';
+    var body = 'Bonjour Innocent,\n\nJe souhaite demander un rendez-vous le '+chosenDate+' à '+chosenTime+'.\n\nNom : '+name+'\nE-mail : '+email+'\n\nMerci de me confirmer ce créneau.';
+    window.location.href = 'mailto:inno.twa@gmail.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+    statusEl.textContent = window.currentLanguage==='en'?'Your email application will open so you can send and confirm the request.':'Votre messagerie va s’ouvrir pour envoyer et confirmer la demande.';
+  });
+
+  var reportModal = document.getElementById('reportModal');
+  document.getElementById('openReport').addEventListener('click',function(){ reportModal.classList.add('open'); document.getElementById('reportName').focus(); });
+  document.getElementById('closeReport').addEventListener('click',function(){ reportModal.classList.remove('open'); });
+  reportModal.addEventListener('click',function(e){ if(e.target === reportModal) reportModal.classList.remove('open'); });
+  document.addEventListener('keydown',function(e){ if(e.key === 'Escape') reportModal.classList.remove('open'); });
+
+  function safeText(value){ return value.replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function getThemeResults(){
+    return Array.from(document.querySelectorAll('#diag-questions .diag-item')).map(function(item){
+      var criteria = Array.from(item.querySelectorAll('.criterion')).map(function(row){ return {label:row.querySelector('span').textContent,ok:row.querySelector('.criterion-toggle').getAttribute('aria-pressed') === 'true'}; });
+      return {name:item.dataset.theme,recommendation:item.dataset.recommendation,criteria:criteria,percent:Math.round(criteria.filter(function(c){return c.ok;}).length/criteria.length*100)};
+    });
+  }
+  function priorityFor(percent){ var en=window.currentLanguage==='en';return percent < 35 ? (en?'High priority':'Priorité haute') : percent < 70 ? (en?'Medium priority':'Priorité moyenne') : (en?'Consolidation':'Consolidation'); }
+  function buildReport(name,org,email,phone,callback){
+    var en=window.currentLanguage==='en';
+    var themes=getThemeResults();
+    var rows=themes.map(function(t){ return '<tr><td>'+safeText(t.name)+'</td><td><b>'+t.percent+' %</b></td><td>'+priorityFor(t.percent)+'</td></tr>'; }).join('');
+    var sections=themes.map(function(t){
+      var gaps=t.criteria.filter(function(c){return !c.ok;});
+      return '<section><h2>'+safeText(t.name)+' — '+t.percent+' %</h2><p><b>'+(en?'Recommendation:':'Recommandation :')+'</b> '+safeText(t.recommendation)+'</p><h3>'+(en?'Areas to strengthen':'Éléments à renforcer')+'</h3>'+(gaps.length?'<ul>'+gaps.map(function(g){return '<li>'+safeText(g.label)+'</li>';}).join('')+'</ul>':'<p>'+(en?'All declared criteria are in place. Verify them through evidence and regular testing.':'Tous les critères déclarés sont en place. Prévoir une vérification par preuves et des tests réguliers.')+'</p>')+'</section>';
+    }).join('');
+    if(en) return '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Cybersecurity report — '+safeText(org)+'</title><style>body{font-family:Arial,sans-serif;color:#1b2430;max-width:900px;margin:40px auto;padding:0 25px;line-height:1.55}h1,h2{font-family:Georgia,serif;color:#0f1b29}h1{border-bottom:4px solid #c9a227;padding-bottom:18px}h2{margin-top:36px;border-bottom:1px solid #ddd;padding-bottom:8px}table{width:100%;border-collapse:collapse;margin:25px 0}th,td{padding:10px;border:1px solid #ccd2d8;text-align:left}th{background:#0f1b29;color:white}.score{font-size:42px;color:#c9a227}.box{background:#f2eee1;padding:20px;border-left:4px solid #a6392b}.foot{margin-top:45px;font-size:12px;color:#667}</style></head><body><p>TWAGIRUMUKIZA — GOVERNANCE · RISK · COMPLIANCE</p><h1>Cybersecurity self-assessment report</h1><p><b>Organization:</b> '+safeText(org)+'<br><b>Contact:</b> '+safeText(name)+' — '+safeText(email)+(phone?'<br><b>Phone:</b> '+safeText(phone):'')+'<br><b>Date:</b> '+new Date().toLocaleDateString('en-GB')+'</p><p class="score">'+score+' / 100</p><p>'+safeText(messageFor(score))+'</p><table><thead><tr><th>Area</th><th>Maturity</th><th>Action level</th></tr></thead><tbody>'+rows+'</tbody></table>'+sections+'<div class="box"><h2>Proposed support</h2><p>Innocent Twagirumukiza can support your organization through an evidence-based audit and prioritized roadmap, formal governance and policies, cybersecurity controls, GDPR, NIS2, DORA and AI Act compliance, crisis preparedness, and team awareness and training.</p><p><b>Recommended next step:</b> an initial scoping discussion followed by an evidence-based audit to validate the declared answers and define actions tailored to your organization.</p></div><p><b>Callback requested:</b> '+(callback?'Yes':'No')+'</p><p class="foot">This indicative report does not replace a full audit. © 2026 Twagirumukiza — All rights reserved.</p></body></html>';
+    return '<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Rapport cybersécurité — '+safeText(org)+'</title><style>body{font-family:Arial,sans-serif;color:#1b2430;max-width:900px;margin:40px auto;padding:0 25px;line-height:1.55}h1,h2{font-family:Georgia,serif;color:#0f1b29}h1{border-bottom:4px solid #c9a227;padding-bottom:18px}h2{margin-top:36px;border-bottom:1px solid #ddd;padding-bottom:8px}table{width:100%;border-collapse:collapse;margin:25px 0}th,td{padding:10px;border:1px solid #ccd2d8;text-align:left}th{background:#0f1b29;color:white}.score{font-size:42px;color:#c9a227}.box{background:#f2eee1;padding:20px;border-left:4px solid #a6392b}.foot{margin-top:45px;font-size:12px;color:#667} @media print{body{margin:0}.no-print{display:none}}</style></head><body><p>TWAGIRUMUKIZA — GOUVERNANCE · RISQUE · CONFORMITÉ</p><h1>Rapport d’auto-diagnostic cybersécurité</h1><p><b>Organisation :</b> '+safeText(org)+'<br><b>Contact :</b> '+safeText(name)+' — '+safeText(email)+(phone?'<br><b>Téléphone :</b> '+safeText(phone):'')+'<br><b>Date :</b> '+new Date().toLocaleDateString('fr-FR')+'</p><p class="score">'+score+' / 100</p><p>'+safeText(messageFor(score))+'</p><table><thead><tr><th>Axe</th><th>Maturité</th><th>Niveau d’action</th></tr></thead><tbody>'+rows+'</tbody></table>'+sections+'<div class="box"><h2>Accompagnement proposé</h2><p>Innocent Twagirumukiza peut vous accompagner par un audit approfondi et une feuille de route priorisée, la formalisation de votre gouvernance et de vos politiques, le déploiement de mesures de cybersécurité, la conformité RGPD, NIS2, DORA et AI Act, la préparation à la gestion de crise, ainsi que la sensibilisation et la formation de vos équipes.</p><p><b>Étape recommandée :</b> un échange de cadrage suivi d’un audit fondé sur des preuves afin de confirmer les réponses déclaratives et définir les actions adaptées à votre organisation.</p></div><p><b>Souhait de rappel :</b> '+(callback?'Oui':'Non')+'</p><p class="foot">Ce rapport est indicatif et ne remplace pas un audit complet. © 2026 Twagirumukiza — Tous droits réservés.</p></body></html>';
+  }
+  document.getElementById('generateReport').addEventListener('click',function(){
+    var name=document.getElementById('reportName').value.trim();
+    var org=document.getElementById('reportOrg').value.trim();
+    var emailEl=document.getElementById('reportEmail'); var email=emailEl.value.trim();
+    var phone=document.getElementById('reportPhone').value.trim(); var callback=document.getElementById('reportCallback').checked;
+    var status=document.getElementById('reportStatus');
+    var en=window.currentLanguage==='en';
+    if(!name || !org || !email || !emailEl.checkValidity()){ status.textContent=en?'Please enter your name, organization and a valid email address.':'Merci de renseigner votre nom, votre organisme et une adresse e-mail valide.'; return; }
+    if(callback && !phone){ status.textContent=en?'Please enter a phone number to request a callback.':'Merci d’indiquer un numéro de téléphone pour être rappelé(e).'; return; }
+    var html=buildReport(name,org,email,phone,callback); var blob=new Blob([html],{type:'text/html;charset=utf-8'}); var url=URL.createObjectURL(blob);
+    var a=document.createElement('a'); a.href=url; a.download=(en?'cybersecurity-report-':'rapport-cybersecurite-')+org.toLowerCase().replace(/[^a-z0-9]+/gi,'-').replace(/^-|-$/g,'')+'.html'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){URL.revokeObjectURL(url);},1500);
+    var themes=getThemeResults(); var summary=themes.map(function(t){return '• '+t.name+' : '+t.percent+' %';}).join('\n');
+    var body=en?('Hello '+name+',\n\nHere is the summary of '+org+'’s self-assessment:\n\nOverall score: '+score+'/100\n'+summary+'\n\nThe detailed report has also been downloaded to your device.\n\n'+(callback?'I would like a callback on '+phone+'.\n':'')+'\nThis indicative result should be confirmed through a full audit.\n\nTwagirumukiza — GRC & Cybersecurity'):('Bonjour '+name+',\n\nVoici le récapitulatif de l’auto-diagnostic de '+org+' :\n\nScore global : '+score+'/100\n'+summary+'\n\nLe rapport détaillé vient également d’être téléchargé sur votre appareil.\n\n'+(callback?'Je souhaite être rappelé(e) au '+phone+'.\n':'')+'\nCe résultat indicatif doit être confirmé par un audit complet.\n\nTwagirumukiza — GRC & Cybersécurité');
+    var mail='mailto:'+encodeURIComponent(email)+'?subject='+encodeURIComponent((en?'Your cybersecurity self-assessment report — ':'Votre rapport d’auto-diagnostic cybersécurité — ')+org)+(callback?'&bcc='+encodeURIComponent('inno.twa@gmail.com'):'')+'&body='+encodeURIComponent(body);
+    status.textContent=en?('Report downloaded. Your email application will open to send the summary'+(callback?' and notify your callback request':'')+'.'):('Rapport téléchargé. Votre messagerie va s’ouvrir pour envoyer le récapitulatif'+(callback?' et notifier votre demande de rappel':'')+'.');
+    setTimeout(function(){ window.location.href=mail; },350);
+  });
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+</script>
+<script src="i18n.js"></script>
+
+</body>
+</html>

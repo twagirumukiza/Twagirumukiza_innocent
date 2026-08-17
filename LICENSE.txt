@@ -1,0 +1,39 @@
+LICENCE D’UTILISATION PROPRIÉTAIRE
+DOSSIER GRC & CYBERSÉCURITÉ — TWAGIRUMUKIZA
+
+Copyright © 2026 Innocent Twagirumukiza. Tous droits réservés.
+
+1. OBJET
+Le présent dépôt, comprenant notamment son code source, ses textes, son design,
+ses questionnaires, sa méthode d’auto-diagnostic, ses rapports, ses éléments
+graphiques et sa documentation (ci-après « le Logiciel »), est protégé par le
+droit d’auteur et demeure la propriété exclusive d’Innocent Twagirumukiza.
+
+2. AUTORISATION LIMITÉE
+La consultation et l’utilisation du Logiciel depuis le site officiellement
+publié sont autorisées à des fins personnelles ou internes d’évaluation.
+
+3. INTERDICTIONS
+Sans autorisation écrite préalable, il est interdit de :
+- copier, reproduire, modifier, adapter ou traduire tout ou partie du Logiciel ;
+- redistribuer, publier, vendre, louer, sous-licencier ou commercialiser le Logiciel ;
+- réutiliser le questionnaire, la méthode, les recommandations ou le design dans
+  un produit, un service, une formation ou une offre commerciale ;
+- supprimer ou modifier les mentions d’auteur, de propriété ou de copyright ;
+- présenter le Logiciel ou ses contenus comme étant l’œuvre d’un tiers.
+
+4. CONTRIBUTIONS ET AUTORISATIONS
+Toute demande d’utilisation, de reproduction, d’adaptation, de partenariat ou
+de contribution doit être adressée à : inno.twa@gmail.com.
+
+5. ABSENCE DE GARANTIE
+Le Logiciel et l’auto-diagnostic sont fournis à titre indicatif, sans garantie
+expresse ou implicite. Ils ne remplacent ni un audit complet, ni un conseil
+juridique ou technique adapté à la situation de l’utilisateur.
+
+6. RESPONSABILITÉ
+Dans les limites permises par la loi, l’auteur ne pourra être tenu responsable
+des dommages directs ou indirects résultant de l’utilisation du Logiciel ou de
+l’interprétation de ses résultats.
+
+Toute utilisation non expressément autorisée par la présente licence est interdite.
